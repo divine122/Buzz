@@ -1,0 +1,37 @@
+{% extends 'chatapp/base.html' %}
+
+{% block title %}Welcome to Chatty {% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to the Chat Application</h1>
+    <p>Start chatting with your friends or join a chat room!</p>
+
+    <!-- Links to Chat Features -->
+    <div class="actions">
+        <a href="/chat/" class="btn">Go to Chat Rooms</a>
+        <a href="/profile/" class="btn">View Your Profile</a>
+    </div>
+
+    <!-- Recent Chat Rooms -->
+    <div class="chat-rooms">
+        <h2>Recent Chat Rooms</h2>
+        <ul>
+            {% for room in chat_rooms %}
+            <li>
+                <a href="/chat/{{ room.id }}/">{{ room.name }}</a> 
+                ({{ room.members.count }} members)
+            </li>
+            {% empty %}
+            <p>No chat rooms found. <a href="/chat/create/">Create one</a>!</p>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    console.log("Welcome page loaded!");
+</script>
+{% endblock scripts %}

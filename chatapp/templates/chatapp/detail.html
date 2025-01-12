@@ -1,0 +1,43 @@
+{% extends 'chatapp/base.html' %}
+
+{% block title %}Detail Page{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ detail_title }}</h1>
+    <p>{{ detail_description }}</p>
+
+    <h2>Messages</h2>
+    <ul class="messages">
+        {% for message in messages %}
+        <li>
+            <strong>{{ message.sender }}:</strong> {{ message.content }}
+            <small>({{ message.timestamp|date:"M d, Y H:i" }})</small>
+        </li>
+        {% empty %}
+        <p>No messages yet. Start the conversation with {{ friend_name }}!</p>
+        {% endfor %}
+    </ul>
+
+    <h2>Friends</h2>
+    <ul class="friends">
+        <li><a href="{% url 'chatapp:message_with_friend' friend_name='Feranmi' %}">Feranmi</a></li>
+        <li><a href="{% url 'chatapp:message_with_friend' friend_name='Isreal' %}">Isreal</a></li>
+        <li><a href="{% url 'chatapp:message_with_friend' friend_name='Lucy' %}">Lucy</a></li>
+    </ul>
+
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="message" rows="3" placeholder="Type your message..." required></textarea>
+        <button type="submit">Send</button>
+    </form>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    console.log("Detail page loaded!");
+</script>
+{% endblock scripts %}
+
+

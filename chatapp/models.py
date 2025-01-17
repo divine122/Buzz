@@ -36,11 +36,17 @@ class Notification(models.Model):
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to='profile_pic/', blank=True, null=True)    
+    profile_picture = models.ImageField(upload_to='profile_picture', blank=True, null=True)    
     status = models.CharField(max_length=300,blank=True, null=True)
+    friends = models.ManyToManyField('Friend', related_name='my_friends')
+    
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
+    
 
-# class Friend(models.Model):
-#     pass        
+class Friend(models.Model):
+    profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='friend')    
+
+    def __str__(self):
+        return f"Friend of {self.profile.user.username}"

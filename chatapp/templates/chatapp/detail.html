@@ -1,43 +1,28 @@
 {% extends 'chatapp/base.html' %}
+{% load static %}
 
-{% block title %}Detail Page{% endblock title %}
+{% block title %}Friend Details{% endblock title %}
 
 {% block content %}
 <div class="container">
-    <h1>{{ detail_title }}</h1>
-    <p>{{ detail_description }}</p>
+    <header class="profile-header">
+        <div class="profile-info">
+            <img src="{{ friend.profile.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
+            <div>
+                <h2>{{ friend.profile.user.username }}</h2>
+                <p>{{ friend.profile.status }}</p>
+            </div>
+        </div>
+    </header>
+    
+    <main class="messages-section">
+        <h1>Chat with {{ friend.profile.user.username }}</h1>
+        
+        <!-- Placeholder for when chat functionality is implemented -->
+        <p>Chat functionality will be here soon!</p>
 
-    <h2>Messages</h2>
-    <ul class="messages">
-        {% for message in messages %}
-        <li>
-            <strong>{{ message.sender }}:</strong> {{ message.content }}
-            <small>({{ message.timestamp|date:"M d, Y H:i" }})</small>
-        </li>
-        {% empty %}
-        <p>No messages yet. Start the conversation with {{ friend_name }}!</p>
-        {% endfor %}
-    </ul>
-
-    <h2>Friends</h2>
-    <ul class="friends">
-        <li><a href="{% url 'chatapp:message_with_friend' friend_name='Feranmi' %}">Feranmi</a></li>
-        <li><a href="{% url 'chatapp:message_with_friend' friend_name='Isreal' %}">Isreal</a></li>
-        <li><a href="{% url 'chatapp:message_with_friend' friend_name='Lucy' %}">Lucy</a></li>
-    </ul>
-
-    <form method="post">
-        {% csrf_token %}
-        <textarea name="message" rows="3" placeholder="Type your message..." required></textarea>
-        <button type="submit">Send</button>
-    </form>
+        <!-- You could also create a form or link here to initiate the chat -->
+        <a href="{% url 'chatapp:chat_view' friend.profile.user.id %}">Start Chat</a>
+    </main>
 </div>
 {% endblock content %}
-
-{% block scripts %}
-<script>
-    console.log("Detail page loaded!");
-</script>
-{% endblock scripts %}
-
-

@@ -5,21 +5,22 @@
 
 {% block content %}
 <div class="chat-container">
-    <h1>Chat with {{ friend.profile.user.username }}</h1>
     <div class="messages">
         {% for message in messages %}
-            <div class="message {% if message.sender == user %}sent{% else %}received{% endif %}">
-                <p><strong>{{ message.sender.username }}</strong></p>
-                <p>{{ message.content }}</p>
-                <p class="created_at">{{ message.created_at }}</p>
+        <div class="message-item {% if message.sender == user %}sent{% else %}received{% endif %}">
+            <div class="message-info">
+                <p class="message-sender">{{ message.sender.username }}</p>
+                <p class="message-content">{{ message.content }}</p>
+                <span class="created_at">{{ message.created_at }}</span>
             </div>
+        </div>
         {% endfor %}
     </div>
-    
+
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="send-button">Send</button>
+        <button class="send-button" type="submit">Send</button>
     </form>
 </div>
 {% endblock %}

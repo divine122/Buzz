@@ -1,38 +1,21 @@
 {% extends 'chatapp/base.html' %}
 {% load static %}
 
-{% block title %}Messages{% endblock title %}
+{% block title %}Messages{% endblock %}
 
 {% block content %}
-<div class="container">
-    <header class="profile-header">
-        <div class="profile-info">
-            <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
-            <div>
-                <h2>{{ user.username }}</h2>
-                <p>{{ user.userprofile.status }}</p>
+<div class="friends-container">
+    {% for friend in friends %}
+    <div class="friend">
+        <a href="{% url 'chatapp:chat_view' friend.profile.id %}">
+            <div class="message-info">
+                <img src="{{ friend.profile.profile_picture.url }}" alt="{{ friend.profile.user.username }}'s Profile" class="friend-pic">
+                <h2>{{ friend.profile.user.username }}</h2>
+                <p>{{ friend.profile.status }}</p>
             </div>
-        </div>
-    </header>
-    
-    <main class="messages-section">
-        <h1>Messages</h1>
-        <ul class="message-list">
-            {% for friend in friends %}
-            <li class="message-item">
-                <!-- Linking to the detail view of the friend -->
-                <a href="{% url 'chata:detail' friend.profile.id %}">
-                    <div class="message-info">
-                        <img src="{{ friend.profile.profile_picture.url }}" alt="{{ friend.profile.user.username }}'s Profile" class="friend-pic">
-                        <h2>{{ friend.profile.user.username }}</h2>
-                        <p>{{ friend.profile.status }}</p>
-                    </div>
-                </a>
-                <span class="notification-badge">{{ friend.new_messages_count }}</span>
-            </li>
-            {% endfor %}
-        </ul>
-    </main>
+        </a>
+        <span class="notification-badge">{{ friend.new_messages_count }}</span>
+    </div>
+    {% endfor %}
 </div>
-{% endblock content %}
-
+{% endblock %}
